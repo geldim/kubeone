@@ -80,12 +80,12 @@ resource "hcloud_server" "lb" {
   }
 
   provisioner "remote-exec" {
-    script = "gobetween.sh"
+    script = "${path.module}/gobetween.sh"
   }
 }
 
 locals {
-  rendered_lb_config = templatefile("./etc_gobetween.tpl", {
+  rendered_lb_config = templatefile("${path.module}/etc_gobetween.tpl", {
     lb_targets = hcloud_server_network.control_plane.*.ip,
   })
 }
