@@ -119,7 +119,7 @@ resource "openstack_compute_instance_v2" "lb" {
   }
 
   provisioner "remote-exec" {
-    script = "gobetween.sh"
+    script = "${path.module}/gobetween.sh"
   }
 }
 
@@ -173,7 +173,7 @@ resource "openstack_networking_floatingip_associate_v2" "lb" {
 }
 
 locals {
-  rendered_lb_config = templatefile("./etc_gobetween.tpl", {
+  rendered_lb_config = templatefile("${path.module}/etc_gobetween.tpl", {
     lb_targets = openstack_compute_instance_v2.control_plane.*.access_ip_v4,
   })
 }

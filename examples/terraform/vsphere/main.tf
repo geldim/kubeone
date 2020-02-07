@@ -141,12 +141,12 @@ resource "vsphere_virtual_machine" "lb" {
   }
 
   provisioner "remote-exec" {
-    script = "gobetween.sh"
+    script = "${path.module}/gobetween.sh"
   }
 }
 
 locals {
-  rendered_lb_config = templatefile("./etc_gobetween.tpl", {
+  rendered_lb_config = templatefile("${path.module}/etc_gobetween.tpl", {
     lb_targets = vsphere_virtual_machine.control_plane.*.default_ip_address,
   })
 }
